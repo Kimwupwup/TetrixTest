@@ -19,7 +19,9 @@ public class DrawSquare extends View {
 		Paint pnt = new Paint();
 		pnt.setARGB(255, 0, 0, 0); /* Èò»ö */		
 		canvas.drawRect(0,0,50,50,pnt);
-
+		canvas.drawRect(0,50,50,100,pnt);
+		canvas.drawRect(0,100,50,150,pnt);
+		canvas.drawRect(0,50,100,100,pnt);
 	}
 
 }

@@ -17,5 +17,6 @@ public class TetrixTestMain extends Activity {
 		ds = new DrawSquare(this);
 		setContentView(ds);
 		
+		
 	}
 }

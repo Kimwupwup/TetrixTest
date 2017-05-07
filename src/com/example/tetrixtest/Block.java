@@ -83,7 +83,6 @@ public class Block {
 		Paint paint = new Paint();
 		paint.setARGB(255, 100, 100, 100);	//회색
 		
-		출처: http://qits.tistory.com/72 [Quiet, In The Storm...]
 		
 		/*
 		 * 1을 찾아 읽으면서 블록사이즈 만큼 색칠한다.
@@ -98,5 +97,27 @@ public class Block {
 		}
 	}
 	
+	public int getCurrentX() {
+		return currentX;
+	}
+	public void setCurrentX(int currentX) {
+		this.currentX = currentX;
+		if(this.currentX < 0) {
+			this.currentX = 0;
+		} else if(this.currentX > 800) {
+			this.currentX = 800;
+		}
+	}
 	
+	public int getCurrentY() {
+		return currentY;
+	}
+	public void setCurrentY(int currentY) {
+		this.currentY = currentY;
+		if(this.currentY < 0) {
+			this.currentY = 0;
+		} else if(this.currentY > 1500) {
+			this.currentY = 1500;
+		}
+	}
 }

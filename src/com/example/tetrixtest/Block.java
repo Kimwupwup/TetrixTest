@@ -57,6 +57,7 @@ public class Block {
 	public Block(int startX, int startY, int blockType) {
 		this.currentX = startX;
 		this.currentY = startY;
+		
 		if(blockType == 1) {
 			this.currentBlock = (int[][])block01.clone();
 		} else if(blockType == 2) {
@@ -80,14 +81,14 @@ public class Block {
 	public void onDraw(Canvas canvas) {
 
 		Paint paint = new Paint();
-		paint.setARGB(255, 0, 0, 0);	//검은색
+		paint.setARGB(255, 100, 100, 100);	//회색
 		
 		/*
 		 * 1을 찾아 읽으면서 블록사이즈 만큼 색칠한다.
 		 */
 		for(int i = 0; i < currentBlock.length; i++) {
 			for(int j =0; j < currentBlock[i].length; j++) {
-				if(currentBlock[i][j] == 1) {
+				if(currentBlock[j][i] == 1) {
 					canvas.drawRect(currentX + i * blockSize, currentY + j * blockSize,
 									currentX + (1 + i) * blockSize, currentY + (1 + j) * blockSize, paint);
 				}

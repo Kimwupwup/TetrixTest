@@ -7,10 +7,14 @@ import android.view.MenuItem;
 
 public class TetrixTestMain extends Activity {
 
+	DrawSquare ds;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		ds = new DrawSquare(this);
 		setContentView(R.layout.activity_tetrix_test_main);
+		setContentView(ds);
 	}
 
 	@Override

@@ -2,19 +2,35 @@ package com.example.tetrixtest;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 
 public class TetrixTestMain extends Activity {
 
 	DrawSquare ds;
+	Button button;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		ds = new DrawSquare(this);
 		setContentView(R.layout.activity_tetrix_test_main);
-		setContentView(ds);
+		
+		button = (Button)findViewById(R.id.button1);
+		
+		button.setOnClickListener(new View.OnClickListener() {			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				setContentView(ds);
+			}
+		});
+		
+		
+		
+		
 	}
 
 	@Override

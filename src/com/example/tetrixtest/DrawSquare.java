@@ -2,8 +2,6 @@ package com.example.tetrixtest;
 
 
 import android.content.Context;
-import android.graphics.Paint;
-
 import android.graphics.Canvas;
 import android.view.View;
 
@@ -14,7 +12,7 @@ public class DrawSquare extends View {
 	
 	public DrawSquare(Context context) {
 		super(context);		
-		block = new Block(0, 0, blockType);
+		block = new Block(540, 0, blockType);
 	}
 
 	@Override

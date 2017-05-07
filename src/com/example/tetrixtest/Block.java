@@ -22,9 +22,9 @@ public class Block {
 		{0, 0, 1, 0}};
 	
 	private final int[][] block02 = {
-		{0, 0, 1, 0},
-		{0, 0, 1, 0},
-		{0, 0, 1, 1},
+		{0, 1, 0, 0},
+		{0, 1, 0, 0},
+		{0, 1, 1, 0},
 		{0, 0, 0, 0}};
 	
 	private final int[][] block03 = {
@@ -34,8 +34,8 @@ public class Block {
 		{0, 0, 0, 0}};
 	
 	private final int[][] block04 = {
-		{0, 0, 1, 1},
-		{0, 0, 1, 1},
+		{0, 1, 1, 0},
+		{0, 1, 1, 0},
 		{0, 0, 0, 0},
 		{0, 0, 0, 0}};
 	
@@ -46,9 +46,9 @@ public class Block {
 		{0, 0, 0, 0}};
 	
 	private final int[][] block06 = {
-		{0, 0, 1, 0},
-		{0, 0, 1, 1},
-		{0, 0, 1, 0},
+		{0, 1, 0, 0},
+		{0, 1, 1, 0},
+		{0, 1, 0, 0},
 		{0, 0, 0, 0}};
 		
 	/*
@@ -82,6 +82,8 @@ public class Block {
 
 		Paint paint = new Paint();
 		paint.setARGB(255, 100, 100, 100);	//회색
+		
+		출처: http://qits.tistory.com/72 [Quiet, In The Storm...]
 		
 		/*
 		 * 1을 찾아 읽으면서 블록사이즈 만큼 색칠한다.

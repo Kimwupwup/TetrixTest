@@ -2,10 +2,9 @@ package com.example.tetrixtest;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+
 
 public class TetrixTestMain extends Activity {
 
@@ -17,5 +16,6 @@ public class TetrixTestMain extends Activity {
 		super.onCreate(savedInstanceState);
 		ds = new DrawSquare(this);
 		setContentView(ds);
+		
 	}
 }

@@ -98,9 +98,9 @@ public class Block {
 		 */
 		for(int i = 0; i < currentBlock.length; i++) {
 			for(int j =0; j < currentBlock[i].length; j++) {
-				if(currentBlock[j][i] == 1) {
-					canvas.drawRect((currentX * blockSize) + i * blockSize, (currentY * blockSize) + j * blockSize,
-									(currentX * blockSize) + (1 + i) * blockSize, (currentY * blockSize) + (1 + j) * blockSize, paint);
+				if(currentBlock[i][j] == 1) {
+					canvas.drawRect((currentX * blockSize) + j * blockSize, (currentY * blockSize) + i * blockSize,
+									(currentX * blockSize) + (1 + j) * blockSize, (currentY * blockSize) + (1 + i) * blockSize, paint);
 				}
 			}
 		}

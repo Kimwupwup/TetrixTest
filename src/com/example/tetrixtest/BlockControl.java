@@ -58,7 +58,7 @@ public class BlockControl extends View{
 	public BlockControl(Context context) {
 		super(context);
 		
-		block = new Block(3, 0, (int)(Math.random()*7) +1);
+		block = new Block(3, 0, 1/*(int)(Math.random()*7) +1*/);
 		
 		/*타이머를 이용해서 일정 주기마다 한칸씩 내린다.*/
 		timer = new Timer(true);
@@ -81,9 +81,13 @@ public class BlockControl extends View{
 					block.setCurrentX(reX);
 					block.setCurrentY(reY);
 					block.setCurrentBlock(recovBlock);
-					setMap();
-					block = new Block(3, 0, (int)(Math.random()*7) +1);
 					
+					block.setCurrentY(block.getCurrentY() + 1);
+					if(isCollide() == true) {
+						block.setCurrentY(reY);
+						setMap();
+						block = new Block(3, 0, (int)(Math.random()*7) +1);
+					}
 				}
 				/*Handler를 이용해서 Timer마다 화면을 초기화하여 블럭을 움직이는 것처럼 보여준다.*/
 				mHandler.sendEmptyMessage(0);
@@ -124,9 +128,9 @@ public class BlockControl extends View{
 
 		for(int i = 0; i < currentBlock.length; i++) {
 			for(int j = 0;j < currentBlock[i].length; j++) {
-				if(currentBlock[j][i] == 1) {
-					chkX = i + block.getCurrentX();
-					chkY = j + block.getCurrentY();
+				if(currentBlock[i][j] == 1) {
+					chkX = j + block.getCurrentX();
+					chkY = i + block.getCurrentY();
 										
 					if(currentMap[chkY][chkX] == 1) return true;
 				}
@@ -143,9 +147,9 @@ public class BlockControl extends View{
 
 		for(int i = 0; i < currentBlock.length; i++) {
 			for(int j = 0;j < currentBlock[i].length; j++) {
-				if(currentBlock[j][i] == 1) {
-					chkX = i + block.getCurrentX();
-					chkY = j + block.getCurrentY();
+				if(currentBlock[i][j] == 1) {
+					chkX = j + block.getCurrentX();
+					chkY = i + block.getCurrentY();
 
 					currentMap[chkY][chkX] = 1;					
 				}

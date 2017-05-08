@@ -9,6 +9,7 @@ public class Block {
 	
 	private int currentX;
 	private int currentY;
+
 	
 	private int[][] currentBlock;
 	
@@ -16,10 +17,10 @@ public class Block {
 	 * 블록 타입
 	 */
 	private final int[][] block01 = {
-		{0, 0, 1, 0},
-		{0, 0, 1, 0},
-		{0, 0, 1, 0},
-		{0, 0, 1, 0}};
+		{0, 1, 0, 0},
+		{0, 1, 0, 0},
+		{0, 1, 0, 0},
+		{0, 1, 0, 0}};
 	
 	private final int[][] block02 = {
 		{0, 1, 0, 0},
@@ -50,13 +51,20 @@ public class Block {
 		{0, 1, 1, 0},
 		{0, 1, 0, 0},
 		{0, 0, 0, 0}};
+	private final int[][] block07 = {
+			{0, 1, 0, 0},
+			{0, 1, 1, 0},
+			{0, 0, 1, 0},
+			{0, 0, 0, 0}};
+	
 		
 	/*
 	 * 블록 번호에 따라서 형성 및 복사
 	 */
 	public Block(int startX, int startY, int blockType) {
-		this.currentX = startX;
-		this.currentY = startY;
+		this.currentX = startX+1;
+		this.currentY = startY+1;
+
 		
 		if(blockType == 1) {
 			this.currentBlock = (int[][])block01.clone();
@@ -70,6 +78,8 @@ public class Block {
 			this.currentBlock = (int[][])block05.clone();
 		} else if(blockType == 6) {
 			this.currentBlock = (int[][])block06.clone();
+		} else if(blockType == 7) {
+			this.currentBlock = (int[][])block07.clone();
 		} else {
 			return;
 		}
@@ -99,6 +109,8 @@ public class Block {
 	/*
 	 * setter & getter
 	 */
+	
+
 	public int getCurrentX() {
 		return currentX;
 	}

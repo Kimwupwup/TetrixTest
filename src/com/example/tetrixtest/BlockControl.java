@@ -13,12 +13,44 @@ import android.widget.RelativeLayout;
 import android.widget.Toast;
 import android.os.Handler;
 import android.os.Message;
+import android.util.Log;
 
 public class BlockControl extends View{
 
 	
 	Block block;
-	private int[][] currentMap = new int[10][25];
+	private final int blockSize = 50;
+	
+	/*블럭이 쌓이는 것을 확인 하기위해서 만든 현재의 맵*/
+	private int[][] currentMap = {
+			{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
+			{1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+			{1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+			{1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+			{1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+			{1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+			{1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+			{1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+			{1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+			{1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+			{1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+			{1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+			{1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+			{1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+			{1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+			{1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+			{1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+			{1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+			{1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+			{1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+			{1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+			{1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+			{1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+			{1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+			{1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+			{1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+			{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}
+		};
 	private long dropTimer = 1000;
 	
 	private Timer timer;
@@ -26,23 +58,41 @@ public class BlockControl extends View{
 	public BlockControl(Context context) {
 		super(context);
 		
-		block = new Block(3, 0, (int)(Math.random()*6) +1);
+		block = new Block(3, 0, (int)(Math.random()*7) +1);
 		
+		/*타이머를 이용해서 일정 주기마다 한칸씩 내린다.*/
 		timer = new Timer(true);
 		timer.schedule(new TimerTask() {
-
+			
 			@Override
 			public void run() {			
-				if(isCollide() == false){
-					block.setCurrentY(block.getCurrentY() + 1);
-					block.setCurrentX(block.getCurrentX() + 1);
-					mHandler.sendEmptyMessage(0);
+				
+				/*충돌시에 복구하기 위해서 만든 recover*/
+				int reX = block.getCurrentX();
+				int reY = block.getCurrentY();
+				int[][] recovBlock = block.getCurrentBlock().clone();
+				
+				/*한칸 내린다*/
+				block.setCurrentY(block.getCurrentY() + 1);
+				block.setCurrentX(block.getCurrentX() + 1);
+				
+				/*충돌이 일어날시에 이전의 상태로 복구한다.*/
+				if(isCollide() == true) {
+					block.setCurrentX(reX);
+					block.setCurrentY(reY);
+					block.setCurrentBlock(recovBlock);
+					setMap();
+					block = new Block(3, 0, (int)(Math.random()*7) +1);
+					
 				}
+				/*Handler를 이용해서 Timer마다 화면을 초기화하여 블럭을 움직이는 것처럼 보여준다.*/
+				mHandler.sendEmptyMessage(0);
 			}
 			
-		}, 1000, 100);
+		}, 1000, 300);
 	}
 	
+	/*Handler*/
 	Handler mHandler = new Handler() {
 		public void handleMessage(Message msg) {
 			if(msg.what == 0) {
@@ -50,40 +100,71 @@ public class BlockControl extends View{
 			}
 		}
 	};
-
 	
+	/*onDraw 실제 화면에 출력해준다.*/
 	@Override
 	protected void onDraw(Canvas canvas) {
 		super.onDraw(canvas);
 		Paint paint = new Paint();
-		paint.setARGB(255, 200, 200, 200);
-		canvas.drawRect(0,0,500,1250, paint);	//테트리스가 진행되는 곳		
+		
+		paint.setARGB(255, 200, 200, 200);	//연한 회색
+		
+		canvas.drawRect(50,50,650,1300, paint);	//테트리스가 진행되는 곳		
+		
 		block.onDraw(canvas);
+		onDrawMap(canvas);
 	}
 	
+	
+	/*블럭이 충돌하는지를 알아보는 함수.*/
 	public boolean isCollide() {
 		int[][] currentBlock = block.getCurrentBlock();
-		
+		int chkX = 0;
+		int chkY = 0;
+
 		for(int i = 0; i < currentBlock.length; i++) {
 			for(int j = 0;j < currentBlock[i].length; j++) {
-				if(currentBlock[i][j] == 1) {
-					
-					/*왼쪽*/
-					if(j+block.getCurrentX()-1 < 0) return true;
-					/*오른쪽*/
-					if(j+block.getCurrentX()+1 > 9) return true;
-					/*바닥*/
-					if(i+block.getCurrentY()+1 > 24) return true;
-					/*아래블럭*/
-					if(currentMap[j+block.getCurrentX()][i+block.getCurrentY()+1] == 1) return true;
-					/*오른쪽블럭*/
-					if(currentMap[j+block.getCurrentX()+1][i+block.getCurrentY()] == 1) return true;
-					/*왼쪽블럭*/
-					if(currentMap[j+block.getCurrentX()-1][i+block.getCurrentY()] == 1) return true;
+				if(currentBlock[j][i] == 1) {
+					chkX = i + block.getCurrentX();
+					chkY = j + block.getCurrentY();
+										
+					if(currentMap[chkY][chkX] == 1) return true;
 				}
 			}
 		}
 		return false;
 	}
+	
+	/*현재 쌓인 블럭을 새롭게 갱신해주는 함수*/
+	public void setMap() {
+		int[][] currentBlock = block.getCurrentBlock();
+		int chkX = 0;
+		int chkY = 0;
+
+		for(int i = 0; i < currentBlock.length; i++) {
+			for(int j = 0;j < currentBlock[i].length; j++) {
+				if(currentBlock[j][i] == 1) {
+					chkX = i + block.getCurrentX();
+					chkY = j + block.getCurrentY();
+
+					currentMap[chkY][chkX] = 1;					
+				}
+			}
+		}
+	}
+	
+	public void onDrawMap(Canvas canvas) {
+		
+		Paint paint = new Paint();
+		paint.setARGB(255, 50, 50, 50);
+		for(int i = 1; i < currentMap.length-1; i++) {
+			for(int j = 1;j < currentMap[i].length-1; j++) {
+				if(currentMap[i][j] == 1) {
+					canvas.drawRect(j*blockSize, i*blockSize, (j+1)*blockSize, (i+1)*blockSize, paint);
+				}
+			}
+		}
+	}
+	
 	
 }

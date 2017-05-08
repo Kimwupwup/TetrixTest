@@ -8,14 +8,15 @@ import android.widget.Button;
 
 public class TetrixTestMain extends Activity {
 
-	DrawSquare ds;
+	BlockControl blockControl;
 	Button button;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		ds = new DrawSquare(this);
-		setContentView(ds);
+
+		blockControl = new BlockControl(this);		
+		setContentView(blockControl);
 		
 		
 	}

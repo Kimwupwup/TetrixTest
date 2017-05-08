@@ -83,20 +83,22 @@ public class Block {
 		Paint paint = new Paint();
 		paint.setARGB(255, 100, 100, 100);	//회색
 		
-		
 		/*
 		 * 1을 찾아 읽으면서 블록사이즈 만큼 색칠한다.
 		 */
 		for(int i = 0; i < currentBlock.length; i++) {
 			for(int j =0; j < currentBlock[i].length; j++) {
 				if(currentBlock[j][i] == 1) {
-					canvas.drawRect(currentX + i * blockSize, currentY + j * blockSize,
-									currentX + (1 + i) * blockSize, currentY + (1 + j) * blockSize, paint);
+					canvas.drawRect((currentX * blockSize) + i * blockSize, (currentY * blockSize) + j * blockSize,
+									(currentX * blockSize) + (1 + i) * blockSize, (currentY * blockSize) + (1 + j) * blockSize, paint);
 				}
 			}
 		}
 	}
 	
+	/*
+	 * setter & getter
+	 */
 	public int getCurrentX() {
 		return currentX;
 	}
@@ -104,8 +106,8 @@ public class Block {
 		this.currentX = currentX;
 		if(this.currentX < 0) {
 			this.currentX = 0;
-		} else if(this.currentX > 800) {
-			this.currentX = 800;
+		} else if(this.currentX > 10) {
+			this.currentX = 10;
 		}
 	}
 	
@@ -116,8 +118,16 @@ public class Block {
 		this.currentY = currentY;
 		if(this.currentY < 0) {
 			this.currentY = 0;
-		} else if(this.currentY > 1500) {
-			this.currentY = 1500;
+		} else if(this.currentY > 25) {
+			this.currentY = 25;
 		}
+	}
+	
+	public int[][] getCurrentBlock() {
+		return currentBlock;
+	}
+	
+	public void setCurrentBlock(int[][] block) {
+		this.currentBlock = block.clone();
 	}
 }

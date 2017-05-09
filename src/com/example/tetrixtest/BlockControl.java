@@ -7,16 +7,10 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.RelativeLayout;
-import android.widget.Toast;
 import android.os.Handler;
 import android.os.Message;
-import android.util.Log;
 
 public class BlockControl extends View{
-
 	
 	Block block;
 	private final int blockSize = 50;
@@ -58,7 +52,7 @@ public class BlockControl extends View{
 	public BlockControl(Context context) {
 		super(context);
 		
-		block = new Block(3, 0, 1/*(int)(Math.random()*7) +1*/);
+		block = new Block(3, 0, (int)(Math.random()*7) +1);
 		
 		/*타이머를 이용해서 일정 주기마다 한칸씩 내린다.*/
 		timer = new Timer(true);

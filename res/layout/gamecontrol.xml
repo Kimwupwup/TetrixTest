@@ -13,10 +13,11 @@
 
 	  <Button
 	      android:id="@+id/left"
-	      android:layout_width="80dp"
+	      android:layout_width="80sp"
 	      android:layout_height="80dp"
 	      android:layout_alignParentBottom="true"
 	      android:layout_alignParentLeft="true"
+	      android:minHeight="48dp"
 	      android:text="Left"
 	      android:textSize="20dp" />
 

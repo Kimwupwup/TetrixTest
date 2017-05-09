@@ -9,7 +9,7 @@ public class Block{
 	
 	private int currentX;
 	private int currentY;
-
+	private int blockType;
 	
 	private int[][] currentBlock;
 	
@@ -51,11 +51,12 @@ public class Block{
 		{0, 1, 1, 0},
 		{0, 1, 0, 0},
 		{0, 0, 0, 0}};
+	
 	private final int[][] block07 = {
-			{0, 1, 0, 0},
-			{0, 1, 1, 0},
-			{0, 0, 1, 0},
-			{0, 0, 0, 0}};
+		{0, 1, 0, 0},
+		{0, 1, 1, 0},
+		{0, 0, 1, 0},
+		{0, 0, 0, 0}};
 	
 		
 	/*
@@ -64,7 +65,7 @@ public class Block{
 	public Block(int startX, int startY, int blockType) {
 		this.currentX = startX+1;
 		this.currentY = startY+1;
-
+		this.blockType = blockType;
 		
 		if(blockType == 1) {
 			this.currentBlock = (int[][])block01.clone();
@@ -106,6 +107,22 @@ public class Block{
 		}
 	}
 	
+	/*시계 방향 돌리기*/
+	public void rotate()
+	{
+		if(blockType != 4) {
+			int[][] temp = new int[4][4];
+			
+			for(int i=0;i<temp.length;i++)
+			{
+				for(int j=0;j<temp[i].length;j++)
+				{
+					temp[3-j][i] = currentBlock[i][j];
+				}
+			}
+			currentBlock = temp.clone();
+		}
+	}
 	/*
 	 * setter & getter
 	 */

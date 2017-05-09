@@ -29,13 +29,17 @@ public class GameControl extends RelativeLayout implements OnClickListener, OnLo
 		
 		btnLeft = (Button)findViewById(R.id.left);
 		btnRight = (Button)findViewById(R.id.right);
-		//btnRight = (Button)findViewById(R.id.down);
-		//btnRight = (Button)findViewById(R.id.rotate);
+		btnDown = (Button)findViewById(R.id.down);
+		btnRotate = (Button)findViewById(R.id.rotate);
 		
 		btnLeft.setOnClickListener(this);
+		btnLeft.setOnLongClickListener(this);
 		btnRight.setOnClickListener(this);
-		//btnDown.setOnClickListener(this);
-		//btnRotate.setOnClickListener(this);
+		btnRight.setOnLongClickListener(this);
+		btnDown.setOnClickListener(this);
+		btnDown.setOnLongClickListener(this);
+		
+		btnRotate.setOnClickListener(this);
 	}
 
 	@Override
@@ -50,6 +54,7 @@ public class GameControl extends RelativeLayout implements OnClickListener, OnLo
 	@Override
 	public boolean onLongClick(View v) {
 		// TODO Auto-generated method stub
+		if(v.equals(btnLeft)) blockControl.moveLeft();
 		return false;
 	}
 

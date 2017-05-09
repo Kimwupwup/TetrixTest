@@ -116,7 +116,29 @@ public class BlockControl extends View{
 		block.onDraw(canvas);
 		onDrawMap(canvas);
 	}
+	/*줄 완성시 */
+	public void deleteLine() {
+		int countBlock = 0;
+		
+		for(int i = 1; i < currentMap.length-1; i++) {
+			for(int j = 1;j < currentMap[i].length-1; j++) {
+				if(currentMap[i][j] == 1) {
+					countBlock++;
+					if(countBlock == 12) {
+						for(int k = 1; k < currentMap[i].length-1; k++) {
+							currentMap[i][k] = 0;
+						}
+						return;
+					}
+				}
+			}
+			countBlock = 0;
+		}
+	}
 	
+	public void pullLine(int i) {
+		
+	}
 	
 	/*블럭이 충돌하는지를 알아보는 함수.*/
 	public boolean isCollide() {
@@ -155,6 +177,7 @@ public class BlockControl extends View{
 		}
 	}
 	
+	/*현재 맵을 그려준다*/
 	public void onDrawMap(Canvas canvas) {
 		
 		Paint paint = new Paint();
@@ -168,19 +191,54 @@ public class BlockControl extends View{
 		}
 	}
 	
+	/*버튼에 따른 이동*/
 	public void moveLeft() {
 		block.setCurrentX(block.getCurrentX() - 1);
+		/*충돌이 일어날시에 이전의 상태로 복구한다.*/
+		if(isCollide() == true) {
+			block.setCurrentX(block.getCurrentX() + 1);
+		}
+		/*Handler를 이용해서 Timer마다 화면을 초기화하여 블럭을 움직이는 것처럼 보여준다.*/
 		mHandler.sendEmptyMessage(0);
+		
 	}
 	public void moveRight() {
 		block.setCurrentX(block.getCurrentX() + 1);
+		
+		/*충돌이 일어날시에 이전의 상태로 복구한다.*/
+		if(isCollide() == true) {
+			block.setCurrentX(block.getCurrentX() - 1);
+			
+		}
+		/*Handler를 이용해서 Timer마다 화면을 초기화하여 블럭을 움직이는 것처럼 보여준다.*/
 		mHandler.sendEmptyMessage(0);
 	}
 	public void moveDown() {
 		block.setCurrentY(block.getCurrentY() + 1);
+		
+		/*충돌이 일어날시에 이전의 상태로 복구한다.*/
+		if(isCollide() == true) {
+			
+			block.setCurrentY(block.getCurrentY() - 1);
+			
+			block.setCurrentY(block.getCurrentY() + 1);
+			if(isCollide() == true) {
+				block.setCurrentY(block.getCurrentY() - 1);
+				setMap();
+				block = new Block(3, 0, (int)(Math.random()*7) +1);
+			}
+		}
+		/*Handler를 이용해서 Timer마다 화면을 초기화하여 블럭을 움직이는 것처럼 보여준다.*/
 		mHandler.sendEmptyMessage(0);
 	}
 	public void rotate() {
-		
+		int[][] recovBlock = block.getCurrentBlock();
+		block.rotate();
+		/*충돌이 일어날시에 이전의 상태로 복구한다.*/
+		if(isCollide() == true) {
+			block.setCurrentBlock(recovBlock);
+		}
+		/*Handler를 이용해서 Timer마다 화면을 초기화하여 블럭을 움직이는 것처럼 보여준다.*/
+		mHandler.sendEmptyMessage(0);
 	}
 }

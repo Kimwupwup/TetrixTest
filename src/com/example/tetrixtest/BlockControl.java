@@ -11,13 +11,13 @@ import android.os.Handler;
 import android.os.Message;
 import android.util.AttributeSet;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.view.View.OnClickListener;
 
 
 public class BlockControl extends View{
 	
 	Block block;
-	
 	private final int blockSize = 50;
 	
 	/*블럭이 쌓이는 것을 확인 하기위해서 만든 현재의 맵*/
@@ -56,9 +56,8 @@ public class BlockControl extends View{
 	
 	public BlockControl(Context context, AttributeSet attrs) {
 		super(context, attrs);
-				
 		block = new Block(3, 0, (int)(Math.random()*7) +1);
-		
+
 		/*타이머를 이용해서 일정 주기마다 한칸씩 내린다.*/
 		timer = new Timer(true);
 		timer.schedule(new TimerTask() {
@@ -92,7 +91,7 @@ public class BlockControl extends View{
 				mHandler.sendEmptyMessage(0);
 			}
 			
-		}, 1000, 1000);
+		}, 1000, 300);
 	}
 	
 	/*Handler*/
@@ -103,7 +102,7 @@ public class BlockControl extends View{
 			}
 		}
 	};
-	
+
 	/*onDraw 실제 화면에 출력해준다.*/
 	@Override
 	protected void onDraw(Canvas canvas) {
@@ -171,5 +170,17 @@ public class BlockControl extends View{
 	
 	public void moveLeft() {
 		block.setCurrentX(block.getCurrentX() - 1);
+		mHandler.sendEmptyMessage(0);
+	}
+	public void moveRight() {
+		block.setCurrentX(block.getCurrentX() + 1);
+		mHandler.sendEmptyMessage(0);
+	}
+	public void moveDown() {
+		block.setCurrentY(block.getCurrentY() + 1);
+		mHandler.sendEmptyMessage(0);
+	}
+	public void rotate() {
+		
 	}
 }

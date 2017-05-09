@@ -11,11 +11,12 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
 import android.widget.Toast;
+import android.util.AttributeSet;
 
 public class TetrisTestMain extends Activity{
 
 	
-	BlockControl blockControl;
+	Block block;
 	View mainView;
 	ImageButton btn;
 	
@@ -24,21 +25,8 @@ public class TetrisTestMain extends Activity{
 
 		super.onCreate(savedInstanceState);
 		
-		btn = (ImageButton)findViewById(R.id.imageButton1);
-		btn.setOnClickListener(new OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-				// TODO Auto-generated method stub
-				//blockControl.moveLeft();
-				Toast.makeText(getApplicationContext(), "Left", Toast.LENGTH_SHORT).show();
-			}
-			
-		});
 		setContentView(R.layout.activity_tetris_test_main);
-		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-		//initView();
-					
+		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);					
 	}
 	
 }

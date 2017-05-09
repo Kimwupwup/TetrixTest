@@ -2,25 +2,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
     
-  <com.example.tetrixtest.BlockControl
-    android:id="@+id/blockcontrol"
+  <com.example.tetrixtest.GameControl
+    android:id="@+id/gamecontrol"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:visibility="visible" />
-
-  <Button
-      android:id="@+id/button10"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:layout_gravity="bottom"
-      android:text="Button" />
-
-  <ImageButton
-      android:id="@+id/imageButton1"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:layout_gravity="right"
-      android:src="@drawable/ic_launcher" />
     
     "
 </FrameLayout>

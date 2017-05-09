@@ -3,7 +3,7 @@ package com.example.tetrixtest;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 
-public class Block {
+public class Block{
 	
 	private final int blockSize = 50; //블록의 한 도트의 크기
 	
@@ -142,4 +142,6 @@ public class Block {
 	public void setCurrentBlock(int[][] block) {
 		this.currentBlock = block.clone();
 	}
+
+
 }

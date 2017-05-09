@@ -4,5 +4,6 @@
     <string name="app_name">TetrixTest</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
-
+    <string name="title_text">title Text</string>
+	<string name="touchMent">touchMent</string>
 </resources>

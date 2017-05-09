@@ -9,10 +9,15 @@ import android.graphics.Paint;
 import android.view.View;
 import android.os.Handler;
 import android.os.Message;
+import android.util.AttributeSet;
+import android.widget.Button;
+import android.view.View.OnClickListener;
+
 
 public class BlockControl extends View{
 	
 	Block block;
+	
 	private final int blockSize = 50;
 	
 	/*블럭이 쌓이는 것을 확인 하기위해서 만든 현재의 맵*/
@@ -49,9 +54,9 @@ public class BlockControl extends View{
 	
 	private Timer timer;
 	
-	public BlockControl(Context context) {
-		super(context);
-		
+	public BlockControl(Context context, AttributeSet attrs) {
+		super(context, attrs);
+				
 		block = new Block(3, 0, (int)(Math.random()*7) +1);
 		
 		/*타이머를 이용해서 일정 주기마다 한칸씩 내린다.*/
@@ -68,7 +73,7 @@ public class BlockControl extends View{
 				
 				/*한칸 내린다*/
 				block.setCurrentY(block.getCurrentY() + 1);
-				block.setCurrentX(block.getCurrentX() + 1);
+				
 				
 				/*충돌이 일어날시에 이전의 상태로 복구한다.*/
 				if(isCollide() == true) {
@@ -87,7 +92,7 @@ public class BlockControl extends View{
 				mHandler.sendEmptyMessage(0);
 			}
 			
-		}, 1000, 300);
+		}, 1000, 1000);
 	}
 	
 	/*Handler*/
@@ -164,5 +169,7 @@ public class BlockControl extends View{
 		}
 	}
 	
-	
+	public void moveLeft() {
+		block.setCurrentX(block.getCurrentX() - 1);
+	}
 }

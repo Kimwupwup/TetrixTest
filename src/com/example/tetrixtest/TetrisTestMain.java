@@ -18,7 +18,8 @@ public class TetrisTestMain extends Activity{
 	
 	Block block;
 	View mainView;
-	ImageButton btn;
+	
+	
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {

@@ -50,5 +50,25 @@
 	      android:layout_alignParentRight="true"
 	      android:text="Rotate"
 	      android:textSize="18dp" />
+
+	  <TextView
+	      android:id="@+id/score"
+	      android:layout_width="wrap_content"
+	      android:layout_height="wrap_content"
+	      android:layout_alignParentTop="true"
+	      android:layout_marginTop="162dp"
+	      android:layout_toRightOf="@+id/right"
+	      android:textAppearance="?android:attr/textAppearanceLarge"
+	      android:textSize="20dp" />
+
+	  <TextView
+	      android:id="@+id/stage"
+	      android:layout_width="wrap_content"
+	      android:layout_height="wrap_content"
+	      android:layout_below="@+id/score"
+	      android:layout_marginTop="32dp"
+	      android:layout_toRightOf="@+id/right"
+	      android:textAppearance="?android:attr/textAppearanceLarge"
+	      android:textSize="20dp" />
 	    
 </RelativeLayout>

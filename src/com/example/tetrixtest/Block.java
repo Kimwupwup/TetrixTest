@@ -126,7 +126,12 @@ public class Block{
 	/*
 	 * setter & getter
 	 */
-	
+	public int getBlockType() {
+		return blockType;
+	}
+	public void setBlockType(int blockType) {
+		this.blockType = blockType;
+	}
 
 	public int getCurrentX() {
 		return currentX;

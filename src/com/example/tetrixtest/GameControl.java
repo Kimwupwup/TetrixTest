@@ -8,12 +8,14 @@ import android.view.View.OnClickListener;
 import android.view.View.OnLongClickListener;
 import android.widget.Button;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 public class GameControl extends RelativeLayout implements OnClickListener, OnLongClickListener{
 
 	BlockControl blockControl;
 	Button btnLeft, btnRight, btnDown, btnRotate;
-	
+	TextView mScore;
+	TextView mStage;
 	
 	public GameControl(Context context, AttributeSet attrs) {
 		super(context, attrs);
@@ -25,7 +27,10 @@ public class GameControl extends RelativeLayout implements OnClickListener, OnLo
 	@Override
 	protected void onFinishInflate() {
 		super.onFinishInflate();
-		blockControl = (BlockControl)findViewById(R.id.blockcontrol);
+		blockControl = (BlockControl)findViewById(R.id.blockcontrol);		
+		mScore = (TextView)findViewById(R.id.score);
+		mStage = (TextView)findViewById(R.id.stage);
+		blockControl.setTextView(mScore, mStage);
 		
 		btnLeft = (Button)findViewById(R.id.left);
 		btnRight = (Button)findViewById(R.id.right);
@@ -54,7 +59,7 @@ public class GameControl extends RelativeLayout implements OnClickListener, OnLo
 	@Override
 	public boolean onLongClick(View v) {
 		// TODO Auto-generated method stub
-		if(v.equals(btnLeft)) blockControl.moveLeft();
+		if(v.equals(btnDown)) blockControl.moveQuickDown();
 		return false;
 	}
 

@@ -330,4 +330,14 @@ public class BlockControl extends View{
 		}
 	}
 	
+	/*게임이 끝나는 경우, Toast메세지 또는 팝업창을 띄울 것이다.*/
+	public boolean isOver() {
+		for(int i = 1; i < currentMap[1].length-1; i++) {
+			if(currentMap[1][i] == 1) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
 }

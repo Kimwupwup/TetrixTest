@@ -65,7 +65,7 @@ public class BlockControl extends View{
 	
 	public BlockControl(Context context, AttributeSet attrs) {
 		super(context, attrs);
-		block = new Block(0, 0, (int)(Math.random()*7) +1);
+		block = new Block(4, 0, (int)(Math.random()*7) +1);
 		nextBlock = new Block(15, 1, (int)(Math.random()*7) +1);
 		
 		/*타이머를 이용해서 일정 주기마다 한칸씩 내린다.*/
@@ -174,7 +174,7 @@ public class BlockControl extends View{
 	/*블럭이 충돌하는지를 알아보는 함수.*/
 	public boolean isCollide() {
 		
-		int[][] currentBlock = block.getCurrentBlock();	//쓰기 쉽게 샘플을 만든다.
+		int[][] currentBlock = block.getCurrentBlock().clone();	//쓰기 쉽게 샘플을 만든다.
 		
 		/*확인해줄 좌표*/
 		int chkX = 0;
@@ -264,7 +264,7 @@ public class BlockControl extends View{
 				setMap();
 				deleteLine();
 				
-				block = new Block(3, 0, nextBlock.getBlockType());
+				block = new Block(4, 0, nextBlock.getBlockType());
 				nextBlock = new Block(15, 1, (int)(Math.random()*7) +1);
 			}
 		}
@@ -282,14 +282,19 @@ public class BlockControl extends View{
 			/*충돌이 일어날시, 한칸위로 복구한다.*/
 			if(isCollide() == true) {
 				block.setCurrentY(block.getCurrentY() - 1);
+				
+				/*한번더 확인해준다.*/
+				if(isCollide() == true) {
+					block.setCurrentY(block.getCurrentY() - 1);
+				}
+				setMap();
+				deleteLine();
+				
+				block = new Block(4, 0, nextBlock.getBlockType());
+				nextBlock = new Block(15, 1, (int)(Math.random()*7) +1);
 				break;
 			}
-		}
-		
-		/*한번더 확인해준다.*/
-		if(isCollide() == true) {
-			block.setCurrentY(block.getCurrentY() - 1);
-		}
+		}	
 		
 		/*Handler를 이용해서 화면을 초기화하여 블럭을 움직이는 것처럼 보여준다.*/
 		mHandler.sendEmptyMessage(0);

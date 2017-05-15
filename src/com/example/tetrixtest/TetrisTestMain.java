@@ -10,24 +10,30 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
+import android.view.Window;
 import android.widget.Toast;
 import android.util.AttributeSet;
 
 public class TetrisTestMain extends Activity{
 
-	
-	Block block;
-	View mainView;
-	
-	
+	private ImageButton introBtn;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 
 		super.onCreate(savedInstanceState);
-		
-		setContentView(R.layout.activity_tetris_test_main);
-		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);					
-	}
-	
+		requestWindowFeature(Window.FEATURE_NO_TITLE);
+
+		setContentView(R.layout.game_intro);
+		introBtn = (ImageButton)findViewById(R.id.intro);		
+		introBtn.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				if(v.equals(introBtn)) {
+					setContentView(R.layout.activity_tetris_test_main);
+					setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);			
+				}
+			}
+		});				
+	}	
 }

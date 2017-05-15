@@ -65,7 +65,7 @@ public class BlockControl extends View{
 	
 	public BlockControl(Context context, AttributeSet attrs) {
 		super(context, attrs);
-		block = new Block(3, 0, (int)(Math.random()*7) +1);
+		block = new Block(0, 0, (int)(Math.random()*7) +1);
 		nextBlock = new Block(15, 1, (int)(Math.random()*7) +1);
 		
 		/*타이머를 이용해서 일정 주기마다 한칸씩 내린다.*/
@@ -97,7 +97,7 @@ public class BlockControl extends View{
 						setMap();
 						deleteLine();
 						
-						block = new Block(3, 0, nextBlock.getBlockType());
+						block = new Block(4, 0, nextBlock.getBlockType());
 						nextBlock = new Block(15, 1, (int)(Math.random()*7) +1);
 						
 					}
@@ -124,10 +124,13 @@ public class BlockControl extends View{
 	@Override
 	protected void onDraw(Canvas canvas) {
 		super.onDraw(canvas);
-		Paint paint = new Paint();
+		Paint paint = new Paint();	//블럭나오는 곳
+		Paint paintBackground = new Paint();	//뒷배경 색상
 		
-		paint.setARGB(255, 200, 200, 200);	//연한 회색
+		paint.setARGB(255, 213, 213, 213);	//연한 회색
+		paintBackground.setARGB(255, 235, 235, 235);
 		
+		canvas.drawRect(0, 0, 1080, 1920, paintBackground); //뒷배경
 		canvas.drawRect(50,50,650,1300, paint);	//테트리스가 진행되는 곳		
 		canvas.drawRect(730, 50, 1030, 350, paint); //다음 블럭이 나오는 곳
 		
@@ -170,13 +173,18 @@ public class BlockControl extends View{
 	
 	/*블럭이 충돌하는지를 알아보는 함수.*/
 	public boolean isCollide() {
-		int[][] currentBlock = block.getCurrentBlock();
+		
+		int[][] currentBlock = block.getCurrentBlock();	//쓰기 쉽게 샘플을 만든다.
+		
+		/*확인해줄 좌표*/
 		int chkX = 0;
 		int chkY = 0;
 
 		for(int i = 0; i < currentBlock.length; i++) {
 			for(int j = 0;j < currentBlock[i].length; j++) {
 				if(currentBlock[i][j] == 1) {
+					
+					/*블럭(4*4Matrix)의 좌표와 현재 블럭의 위치좌표를 더하면 맵에서의 블럭의 좌표이다.  */
 					chkX = j + block.getCurrentX();
 					chkY = i + block.getCurrentY();
 										
@@ -209,7 +217,7 @@ public class BlockControl extends View{
 	public void onDrawMap(Canvas canvas) {
 		
 		Paint paint = new Paint();
-		paint.setARGB(255, 50, 50, 50);
+		paint.setARGB(255, 100, 100, 100);
 		for(int i = 1; i < currentMap.length-1; i++) {
 			for(int j = 1;j < currentMap[i].length-1; j++) {
 				if(currentMap[i][j] == 1) {
@@ -226,7 +234,7 @@ public class BlockControl extends View{
 		if(isCollide() == true) {
 			block.setCurrentX(block.getCurrentX() + 1);
 		}
-		/*Handler를 이용해서 Timer마다 화면을 초기화하여 블럭을 움직이는 것처럼 보여준다.*/
+		/*Handler를 이용해서 화면을 초기화하여 블럭을 움직이는 것처럼 보여준다.*/
 		mHandler.sendEmptyMessage(0);
 		
 	}
@@ -238,7 +246,7 @@ public class BlockControl extends View{
 			block.setCurrentX(block.getCurrentX() - 1);
 			
 		}
-		/*Handler를 이용해서 Timer마다 화면을 초기화하여 블럭을 움직이는 것처럼 보여준다.*/
+		/*Handler를 이용해서 화면을 초기화하여 블럭을 움직이는 것처럼 보여준다.*/
 		mHandler.sendEmptyMessage(0);
 	}
 	
@@ -260,30 +268,32 @@ public class BlockControl extends View{
 				nextBlock = new Block(15, 1, (int)(Math.random()*7) +1);
 			}
 		}
-		/*Handler를 이용해서 Timer마다 화면을 초기화하여 블럭을 움직이는 것처럼 보여준다.*/
+		/*Handler를 이용해서 화면을 초기화하여 블럭을 움직이는 것처럼 보여준다.*/
 		mHandler.sendEmptyMessage(0);
 	}
 	
 	/*Down키를 길게 누를경우 한번에 내려간다.*/
 	public void moveQuickDown() {
-		block.setCurrentY((currentMap.length - 3));
 		
-		/*충돌이 일어날시에 이전의 상태로 복구한다.*/
-		while(isCollide()) {
-			block.setCurrentY(block.getCurrentY() - 1);
+		/*아래를 확인하면서 한칸씩 옮긴다.*/
+		for(int i = 1; i < currentMap.length-1; i++) {
+			block.setCurrentY(block.getCurrentY() + 1);
+			
+			/*충돌이 일어날시, 한칸위로 복구한다.*/
+			if(isCollide() == true) {
+				block.setCurrentY(block.getCurrentY() - 1);
+				break;
+			}
 		}
-
-		block.setCurrentY(block.getCurrentY() + 1);
+		
+		/*한번더 확인해준다.*/
 		if(isCollide() == true) {
 			block.setCurrentY(block.getCurrentY() - 1);
-			setMap();
-			deleteLine();
-			
-			block = new Block(3, 0, nextBlock.getBlockType());
-			nextBlock = new Block(15, 1, (int)(Math.random()*7) +1);
 		}
-		/*Handler를 이용해서 Timer마다 화면을 초기화하여 블럭을 움직이는 것처럼 보여준다.*/
+		
+		/*Handler를 이용해서 화면을 초기화하여 블럭을 움직이는 것처럼 보여준다.*/
 		mHandler.sendEmptyMessage(0);
+		
 	}
 	
 	public void rotate() {

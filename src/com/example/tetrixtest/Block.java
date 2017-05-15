@@ -23,39 +23,39 @@ public class Block{
 		{0, 1, 0, 0}};
 	
 	private final int[][] block02 = {
-		{0, 1, 0, 0},
-		{0, 1, 0, 0},
-		{0, 1, 1, 0},
+		{1, 0, 0, 0},
+		{1, 0, 0, 0},
+		{1, 1, 0, 0},
 		{0, 0, 0, 0}};
 	
 	private final int[][] block03 = {
-		{0, 0, 1, 0},
-		{0, 1, 1, 0},
 		{0, 1, 0, 0},
+		{1, 1, 0, 0},
+		{1, 0, 0, 0},
 		{0, 0, 0, 0}};
 	
 	private final int[][] block04 = {
-		{0, 1, 1, 0},
-		{0, 1, 1, 0},
+		{1, 1, 0, 0},
+		{1, 1, 0, 0},
 		{0, 0, 0, 0},
 		{0, 0, 0, 0}};
 	
 	private final int[][] block05 = {
-		{0, 0, 1, 0},
-		{0, 0, 1, 0},
-		{0, 1, 1, 0},
+		{0, 1, 0, 0},
+		{0, 1, 0, 0},
+		{1, 1, 0, 0},
 		{0, 0, 0, 0}};
 	
 	private final int[][] block06 = {
-		{0, 1, 0, 0},
-		{0, 1, 1, 0},
-		{0, 1, 0, 0},
+		{1, 0, 0, 0},
+		{1, 1, 0, 0},
+		{1, 0, 0, 0},
 		{0, 0, 0, 0}};
 	
 	private final int[][] block07 = {
+		{1, 0, 0, 0},
+		{1, 1, 0, 0},
 		{0, 1, 0, 0},
-		{0, 1, 1, 0},
-		{0, 0, 1, 0},
 		{0, 0, 0, 0}};
 	
 		
@@ -63,8 +63,8 @@ public class Block{
 	 * 블록 번호에 따라서 형성 및 복사
 	 */
 	public Block(int startX, int startY, int blockType) {
-		this.currentX = startX+1;
-		this.currentY = startY+1;
+		this.currentX = startX + 1;		// 1을 더하지 않는 이유는 각 블럭의 0열이 0이기 때문이다.
+		this.currentY = startY + 1;	// 1을 더하는 이유는 맵의 맨 위는 1로 채워져 있기때문에
 		this.blockType = blockType;
 		
 		if(blockType == 1) {
@@ -92,7 +92,7 @@ public class Block{
 	public void onDraw(Canvas canvas) {
 
 		Paint paint = new Paint();
-		paint.setARGB(255, 100, 100, 100);	//회색
+		paint.setARGB(255, 159, 159, 159);	//회색
 		
 		/*
 		 * 1을 찾아 읽으면서 블록사이즈 만큼 색칠한다.

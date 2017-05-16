@@ -11,6 +11,7 @@ import android.widget.TextView;
 import android.os.Handler;
 import android.os.Message;
 import android.util.AttributeSet;
+import android.util.Log;
 
 
 
@@ -22,8 +23,8 @@ public class BlockControl extends View{
 	private int stage = 1;
 	private TextView mTextScore;
 	private TextView mTextStage;
-	Block block;
-	Block nextBlock;
+	private Block block;
+	private Block nextBlock;
 	
 	
 	private final int blockSize = 50;
@@ -65,7 +66,9 @@ public class BlockControl extends View{
 	
 	public BlockControl(Context context, AttributeSet attrs) {
 		super(context, attrs);
-		block = new Block(4, 0, (int)(Math.random()*7) +1);
+		
+		/*처음에 나올 블럭은 random으로 해준다.*/
+		block = new Block(1, 1, (int)(Math.random()*7) +1);
 		nextBlock = new Block(15, 1, (int)(Math.random()*7) +1);
 		
 		/*타이머를 이용해서 일정 주기마다 한칸씩 내린다.*/
@@ -75,29 +78,25 @@ public class BlockControl extends View{
 			@Override
 			public void run() {			
 				
-				
-				/*충돌시에 복구하기 위해서 만든 recover*/
-				int reX = block.getCurrentX();
-				int reY = block.getCurrentY();
-				int[][] recovBlock = block.getCurrentBlock().clone();
-				
 				/*한칸 내린다*/
 				block.setCurrentY(block.getCurrentY() + 1);
 				
 				
 				/*충돌이 일어날시에 이전의 상태로 복구한다.*/
 				if(isCollide() == true) {
-					block.setCurrentX(reX);
-					block.setCurrentY(reY);
-					block.setCurrentBlock(recovBlock);
+					block.setCurrentY(block.getCurrentY() - 1);
 					
+					/*다시 확인*/
 					block.setCurrentY(block.getCurrentY() + 1);
 					if(isCollide() == true) {
-						block.setCurrentY(reY);
+						block.setCurrentY(block.getCurrentY() - 1);
+						
+						/*바닥이라는 것을 확인했으니 맵에 표시해주고 삭제될 줄이 있는지 확인한다.*/
 						setMap();
 						deleteLine();
 						
-						block = new Block(4, 0, nextBlock.getBlockType());
+						/*현재 나올 블럭의 이전의 nextBlock를 넣어주고, random으로 nextBlock을 만들어준다.*/
+						block = new Block(4, 1, nextBlock.getBlockType());
 						nextBlock = new Block(15, 1, (int)(Math.random()*7) +1);
 						
 					}
@@ -106,6 +105,7 @@ public class BlockControl extends View{
 				mHandler.sendEmptyMessage(0);
 			}
 			
+			/*1초후에 타이머를 시작하면 dropTimer만큼의 딜레이가 걸린다.*/
 		}, 1000, dropTimer);
 	}
 	
@@ -184,7 +184,7 @@ public class BlockControl extends View{
 			for(int j = 0;j < currentBlock[i].length; j++) {
 				if(currentBlock[i][j] == 1) {
 					
-					/*블럭(4*4Matrix)의 좌표와 현재 블럭의 위치좌표를 더하면 맵에서의 블럭의 좌표이다.  */
+					/*블럭(4*4Matrix)의 좌표와 현재 블럭의 위치좌표를 더하면 맵에서의 블럭 한 도트의 좌표이다.  */
 					chkX = j + block.getCurrentX();
 					chkY = i + block.getCurrentY();
 										
@@ -230,8 +230,11 @@ public class BlockControl extends View{
 	/*버튼에 따른 이동*/
 	public void moveLeft() {
 		block.setCurrentX(block.getCurrentX() - 1);
+		Log.e("Tag", "LMove");
+
 		/*충돌이 일어날시에 이전의 상태로 복구한다.*/
 		if(isCollide() == true) {
+			Log.e("Tag", "LCollide");
 			block.setCurrentX(block.getCurrentX() + 1);
 		}
 		/*Handler를 이용해서 화면을 초기화하여 블럭을 움직이는 것처럼 보여준다.*/
@@ -240,11 +243,12 @@ public class BlockControl extends View{
 	}
 	public void moveRight() {
 		block.setCurrentX(block.getCurrentX() + 1);
-		
+		Log.e("Tag", "RMove");
+
 		/*충돌이 일어날시에 이전의 상태로 복구한다.*/
 		if(isCollide() == true) {
 			block.setCurrentX(block.getCurrentX() - 1);
-			
+			Log.e("Tag", "RCollide");
 		}
 		/*Handler를 이용해서 화면을 초기화하여 블럭을 움직이는 것처럼 보여준다.*/
 		mHandler.sendEmptyMessage(0);
@@ -255,7 +259,7 @@ public class BlockControl extends View{
 		
 		/*충돌이 일어날시에 이전의 상태로 복구한다.*/
 		if(isCollide() == true) {
-			
+			Log.e("Tag", "DCollide");
 			block.setCurrentY(block.getCurrentY() - 1);
 			
 			block.setCurrentY(block.getCurrentY() + 1);
@@ -264,7 +268,7 @@ public class BlockControl extends View{
 				setMap();
 				deleteLine();
 				
-				block = new Block(4, 0, nextBlock.getBlockType());
+				block = new Block(4, 1, nextBlock.getBlockType());
 				nextBlock = new Block(15, 1, (int)(Math.random()*7) +1);
 			}
 		}
@@ -281,6 +285,7 @@ public class BlockControl extends View{
 			
 			/*충돌이 일어날시, 한칸위로 복구한다.*/
 			if(isCollide() == true) {
+				Log.e("Tag", "DCollide");
 				block.setCurrentY(block.getCurrentY() - 1);
 				
 				/*한번더 확인해준다.*/
@@ -290,7 +295,7 @@ public class BlockControl extends View{
 				setMap();
 				deleteLine();
 				
-				block = new Block(4, 0, nextBlock.getBlockType());
+				block = new Block(4, 1, nextBlock.getBlockType());
 				nextBlock = new Block(15, 1, (int)(Math.random()*7) +1);
 				break;
 			}

@@ -63,8 +63,8 @@ public class Block{
 	 * 블록 번호에 따라서 형성 및 복사
 	 */
 	public Block(int startX, int startY, int blockType) {
-		this.currentX = startX + 1;		// 1을 더하지 않는 이유는 각 블럭의 0열이 0이기 때문이다.
-		this.currentY = startY + 1;	// 1을 더하는 이유는 맵의 맨 위는 1로 채워져 있기때문에
+		this.currentX = startX;		
+		this.currentY = startY;
 		this.blockType = blockType;
 		
 		if(blockType == 1) {
@@ -100,8 +100,8 @@ public class Block{
 		for(int i = 0; i < currentBlock.length; i++) {
 			for(int j =0; j < currentBlock[i].length; j++) {
 				if(currentBlock[i][j] == 1) {
-					canvas.drawRect((currentX * blockSize) + j * blockSize, (currentY * blockSize) + i * blockSize,
-									(currentX * blockSize) + (1 + j) * blockSize, (currentY * blockSize) + (1 + i) * blockSize, paint);
+					canvas.drawRect((currentX + j) * blockSize, (currentY + i) * blockSize,
+									(currentX + 1 + j) * blockSize, (currentY + 1 + i) * blockSize, paint);
 				}
 			}
 		}
@@ -138,11 +138,6 @@ public class Block{
 	}
 	public void setCurrentX(int currentX) {
 		this.currentX = currentX;
-		if(this.currentX < 0) {
-			this.currentX = 0;
-		} else if(this.currentX > 10) {
-			this.currentX = 10;
-		}
 	}
 	
 	public int getCurrentY() {
@@ -150,11 +145,6 @@ public class Block{
 	}
 	public void setCurrentY(int currentY) {
 		this.currentY = currentY;
-		if(this.currentY < 0) {
-			this.currentY = 0;
-		} else if(this.currentY > 25) {
-			this.currentY = 25;
-		}
 	}
 	
 	public int[][] getCurrentBlock() {

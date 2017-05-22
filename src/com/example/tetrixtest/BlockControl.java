@@ -81,7 +81,6 @@ public class BlockControl extends View{
 				/*한칸 내린다*/
 				block.setCurrentY(block.getCurrentY() + 1);
 				
-				
 				/*충돌이 일어날시에 이전의 상태로 복구한다.*/
 				if(isCollide() == true) {
 					block.setCurrentY(block.getCurrentY() - 1);
@@ -105,7 +104,7 @@ public class BlockControl extends View{
 				mHandler.sendEmptyMessage(0);
 			}
 			
-			/*1초후에 타이머를 시작하면 dropTimer만큼의 딜레이가 걸린다.*/
+			/*1초후에 타이머를 시작하며 dropTimer만큼의 딜레이가 걸린다.*/
 		}, 1000, dropTimer);
 	}
 	
@@ -210,6 +209,11 @@ public class BlockControl extends View{
 					currentMap[chkY][chkX] = 1;					
 				}
 			}
+		}
+		
+		/*맵을 갱신한 후, 타이머를 종료하고 게임을 멈춘다.*/
+		if(isOver() == true) {
+			timer.cancel();
 		}
 	}
 	
@@ -357,6 +361,5 @@ public class BlockControl extends View{
 			}
 		}
 		return false;
-	}
-	
+	}	
 }

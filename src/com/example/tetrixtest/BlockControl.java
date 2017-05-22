@@ -68,8 +68,8 @@ public class BlockControl extends View{
 		super(context, attrs);
 		
 		/*처음에 나올 블럭은 random으로 해준다.*/
-		block = new Block(1, 1, (int)(Math.random()*7) +1);
-		nextBlock = new Block(15, 1, (int)(Math.random()*7) +1);
+		block = new Block(4, 1, (int)(Math.random()*7) +1);
+		nextBlock = new Block(16, 2, (int)(Math.random()*7) +1);
 		
 		/*타이머를 이용해서 일정 주기마다 한칸씩 내린다.*/
 		timer = new Timer(true);
@@ -97,7 +97,7 @@ public class BlockControl extends View{
 						
 						/*현재 나올 블럭의 이전의 nextBlock를 넣어주고, random으로 nextBlock을 만들어준다.*/
 						block = new Block(4, 1, nextBlock.getBlockType());
-						nextBlock = new Block(15, 1, (int)(Math.random()*7) +1);
+						nextBlock = new Block(16, 2, (int)(Math.random()*7) +1);
 						
 					}
 				}
@@ -132,7 +132,7 @@ public class BlockControl extends View{
 		
 		canvas.drawRect(0, 0, 1080, 1920, paintBackground); //뒷배경
 		canvas.drawRect(50,50,650,1300, paint);	//테트리스가 진행되는 곳		
-		canvas.drawRect(730, 50, 1030, 350, paint); //다음 블럭이 나오는 곳
+		canvas.drawRect(750, 50, 1050, 350, paint); //다음 블럭이 나오는 곳
 		
 		
 		nextBlock.onDraw(canvas);
@@ -181,13 +181,13 @@ public class BlockControl extends View{
 		int chkY = 0;
 
 		for(int i = 0; i < currentBlock.length; i++) {
-			for(int j = 0;j < currentBlock[i].length; j++) {
+			for(int j = 0; j < currentBlock[i].length; j++) {
 				if(currentBlock[i][j] == 1) {
 					
-					/*블럭(4*4Matrix)의 좌표와 현재 블럭의 위치좌표를 더하면 맵에서의 블럭 한 도트의 좌표이다.  */
+					/*블럭(4*4Matrix)의 좌표와 현재 블럭의 위치좌표를 더하면 맵에서의 블럭 한 도트의 좌표이다.*/
 					chkX = j + block.getCurrentX();
 					chkY = i + block.getCurrentY();
-										
+					
 					if(currentMap[chkY][chkX] == 1) return true;
 				}
 			}
@@ -269,7 +269,7 @@ public class BlockControl extends View{
 				deleteLine();
 				
 				block = new Block(4, 1, nextBlock.getBlockType());
-				nextBlock = new Block(15, 1, (int)(Math.random()*7) +1);
+				nextBlock = new Block(16, 2, (int)(Math.random()*7) +1);
 			}
 		}
 		/*Handler를 이용해서 화면을 초기화하여 블럭을 움직이는 것처럼 보여준다.*/
@@ -296,7 +296,7 @@ public class BlockControl extends View{
 				deleteLine();
 				
 				block = new Block(4, 1, nextBlock.getBlockType());
-				nextBlock = new Block(15, 1, (int)(Math.random()*7) +1);
+				nextBlock = new Block(16, 2, (int)(Math.random()*7) +1);
 				break;
 			}
 		}	

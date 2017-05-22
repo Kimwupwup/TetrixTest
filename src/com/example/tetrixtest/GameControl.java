@@ -14,6 +14,7 @@ public class GameControl extends RelativeLayout implements OnClickListener, OnLo
 
 	BlockControl blockControl;
 	Button btnLeft, btnRight, btnDown, btnRotate;
+	
 	TextView mScore;
 	TextView mStage;
 	
@@ -38,9 +39,7 @@ public class GameControl extends RelativeLayout implements OnClickListener, OnLo
 		btnRotate = (Button)findViewById(R.id.rotate);
 		
 		btnLeft.setOnClickListener(this);
-		btnLeft.setOnLongClickListener(this);
 		btnRight.setOnClickListener(this);
-		btnRight.setOnLongClickListener(this);
 		btnDown.setOnClickListener(this);
 		btnDown.setOnLongClickListener(this);
 		

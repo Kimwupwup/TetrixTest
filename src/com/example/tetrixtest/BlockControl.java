@@ -239,8 +239,8 @@ public class BlockControl extends View{
 		}
 		/*Handler를 이용해서 화면을 초기화하여 블럭을 움직이는 것처럼 보여준다.*/
 		mHandler.sendEmptyMessage(0);
-		
 	}
+	
 	public void moveRight() {
 		block.setCurrentX(block.getCurrentX() + 1);
 		Log.e("Tag", "RMove");
@@ -303,7 +303,6 @@ public class BlockControl extends View{
 		
 		/*Handler를 이용해서 화면을 초기화하여 블럭을 움직이는 것처럼 보여준다.*/
 		mHandler.sendEmptyMessage(0);
-		
 	}
 	
 	public void rotate() {
@@ -345,7 +344,7 @@ public class BlockControl extends View{
 	public void calStage() {
 		if(nextStage < score) {
 			stage++;
-			dropTimer *= 0.9;
+			dropTimer *= 0.8;
 			nextStage += 100;
 		}
 	}

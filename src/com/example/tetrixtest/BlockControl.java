@@ -8,6 +8,7 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.os.Handler;
 import android.os.Message;
 import android.util.AttributeSet;
@@ -361,6 +362,7 @@ public class BlockControl extends View{
 	public boolean isOver() {
 		for(int i = 1; i < currentMap[1].length-1; i++) {
 			if(currentMap[1][i] == 1) {
+				Toast.makeText(getContext(), "GAME OVER!\nScore: " + score + "\nStage: " + stage, Toast.LENGTH_LONG).show();
 				return true;
 			}
 		}

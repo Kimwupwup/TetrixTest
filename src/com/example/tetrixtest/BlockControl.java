@@ -261,9 +261,7 @@ public class BlockControl extends View{
 		 *블럭이 새로생기는 것을 막고, 버튼이 작동하는 것을 막아야한다.
 		 *지금은 타이어만 멈추고 나머지는 전부 작동하는 중...
 		 */
-		if(isOver() == true) {
-			timer.cancel();
-		}
+		isOver();
 	}
 	
 	/* 현재 맵을 그려주는 함수
@@ -429,16 +427,16 @@ public class BlockControl extends View{
 	/* 게임이 끝나는 경우, Toast메세지 또는 팝업창을 띄울 것이다.
 	 * 이 함수는 굳이 boolean이 아니여도 될듯하다.
 	 * */
-	public boolean isOver() {
+	public void isOver() {
 		
 		/* 맨윗줄에 1이 한개로 있다면 게임은 끝난다.*/
 		for(int i = 1; i < currentMap[1].length-1; i++) {
 			if(currentMap[1][i] == 1) {
+				
 				/* 스코어와 스테이지를 같이 출력해준다.*/
 				Toast.makeText(getContext(), "GAME OVER!\nScore: " + score + "\nStage: " + stage, Toast.LENGTH_LONG).show();
-				return true;
+				timer.cancel();
 			}
 		}
-		return false;
 	}	
 }

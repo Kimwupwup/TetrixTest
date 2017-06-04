@@ -1,6 +1,7 @@
 package com.example.tetrixtest;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,6 +10,9 @@ import android.view.View.OnLongClickListener;
 import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
+
+
 
 public class GameControl extends RelativeLayout implements OnClickListener, OnLongClickListener{
 
@@ -23,6 +27,8 @@ public class GameControl extends RelativeLayout implements OnClickListener, OnLo
 		// TODO Auto-generated constructor stub
 		LayoutInflater inflater = LayoutInflater.from(context);
 		inflater.inflate(R.layout.gamecontrol, this, true);
+		
+		
 	}
 	
 	@Override
@@ -41,9 +47,9 @@ public class GameControl extends RelativeLayout implements OnClickListener, OnLo
 		btnLeft.setOnClickListener(this);
 		btnRight.setOnClickListener(this);
 		btnDown.setOnClickListener(this);
-		btnDown.setOnLongClickListener(this);
-		
+		btnDown.setOnLongClickListener(this);		
 		btnRotate.setOnClickListener(this);
+		
 	}
 
 	@Override
@@ -61,5 +67,5 @@ public class GameControl extends RelativeLayout implements OnClickListener, OnLo
 		if(v.equals(btnDown)) blockControl.moveQuickDown();
 		return false;
 	}
-
+	
 }

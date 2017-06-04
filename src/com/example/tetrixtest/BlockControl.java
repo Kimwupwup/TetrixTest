@@ -3,17 +3,18 @@ package com.example.tetrixtest;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 import android.os.Handler;
 import android.os.Message;
 import android.util.AttributeSet;
 import android.util.Log;
-
+import android.app.AlertDialog;
 
 
 
@@ -119,6 +120,14 @@ public class BlockControl extends View{
 			if(msg.what == 0) {
 				mTextScore.setText("Score : " + score);
 				mTextStage.setText("Stage : " + stage);
+				
+				
+				/*
+				 *맵을 갱신한 후, 타이머를 종료하고 게임을 멈춘다.
+				 *블럭이 새로생기는 것을 막고, 버튼이 작동하는 것을 막아야한다.
+				 *지금은 타이어만 멈추고 나머지는 전부 작동하는 중...
+				 */
+				isOver();
 				
 				/* invalidate()
 				 * 이 함수는 불려질때마다 onDraw함수를 호출한다고 한다.
@@ -254,15 +263,6 @@ public class BlockControl extends View{
 					currentMap[chkY][chkX] = 1;					
 				}
 			}
-		}
-		
-		/*
-		 *맵을 갱신한 후, 타이머를 종료하고 게임을 멈춘다.
-		 *블럭이 새로생기는 것을 막고, 버튼이 작동하는 것을 막아야한다.
-		 *지금은 타이어만 멈추고 나머지는 전부 작동하는 중...
-		 */
-		if(isOver() == true) {
-			timer.cancel();
 		}
 	}
 	
@@ -429,16 +429,42 @@ public class BlockControl extends View{
 	/* 게임이 끝나는 경우, Toast메세지 또는 팝업창을 띄울 것이다.
 	 * 이 함수는 굳이 boolean이 아니여도 될듯하다.
 	 * */
-	public boolean isOver() {
+	public void isOver() {
 		
 		/* 맨윗줄에 1이 한개로 있다면 게임은 끝난다.*/
 		for(int i = 1; i < currentMap[1].length-1; i++) {
 			if(currentMap[1][i] == 1) {
 				/* 스코어와 스테이지를 같이 출력해준다.*/
-				Toast.makeText(getContext(), "GAME OVER!\nScore: " + score + "\nStage: " + stage, Toast.LENGTH_LONG).show();
-				return true;
+				timer.cancel();
+				DialogDefault();
 			}
 		}
-		return false;
 	}	
+	
+	/*
+	 * 게임이 끝나면 dialog창을 띄워서 다시할지 아니면 끝낼지 선택한다.
+	 */
+	private void DialogDefault() {
+		AlertDialog.Builder alert = new AlertDialog.Builder(getContext());
+		alert.setTitle("GAME OVER!");
+		alert.setMessage("Stage : " + stage + "\nScore : " + score);
+		alert.setPositiveButton("다시하기", new DialogInterface.OnClickListener() {
+			
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				// TODO Auto-generated method stub
+				Log.e("Tag", "reset");
+			}
+		});
+		alert.setNegativeButton("나가기", new DialogInterface.OnClickListener() {
+			
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				// TODO Auto-generated method stub
+				Log.e("Tag", "out");
+			}
+		});
+		alert.show();
+	}
+	
 }

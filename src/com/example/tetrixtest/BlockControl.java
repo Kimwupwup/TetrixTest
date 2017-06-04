@@ -448,20 +448,20 @@ public class BlockControl extends View{
 		AlertDialog.Builder alert = new AlertDialog.Builder(getContext());
 		alert.setTitle("GAME OVER!");
 		alert.setMessage("Stage : " + stage + "\nScore : " + score);
-		alert.setPositiveButton("다시하기", new DialogInterface.OnClickListener() {
-			
-			@Override
-			public void onClick(DialogInterface dialog, int which) {
-				// TODO Auto-generated method stub
-				Log.e("Tag", "reset");
-			}
-		});
-		alert.setNegativeButton("나가기", new DialogInterface.OnClickListener() {
+		alert.setPositiveButton("나가기", new DialogInterface.OnClickListener() {
 			
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
 				// TODO Auto-generated method stub
 				Log.e("Tag", "out");
+			}
+		});
+		alert.setNegativeButton("다시시작", new DialogInterface.OnClickListener() {
+			
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				// TODO Auto-generated method stub
+				Log.e("Tag", "reset");
 			}
 		});
 		alert.show();

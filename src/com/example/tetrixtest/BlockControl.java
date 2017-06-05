@@ -4,21 +4,22 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 import android.os.Handler;
 import android.os.Message;
 import android.util.AttributeSet;
 import android.util.Log;
-
-
+import android.app.AlertDialog;
+import android.os.Process;
 
 
 public class BlockControl extends View{
 	
+	private int over = 0;
 	private int score = 0;
 	private int nextStage = 100;
 	private int stage = 1;
@@ -96,9 +97,10 @@ public class BlockControl extends View{
 						deleteLine();
 						
 						/*현재 나올 블럭의 이전의 nextBlock를 넣어주고, random으로 nextBlock을 만들어준다.*/
-						block = new Block(4, 1, nextBlock.getBlockType());
-						nextBlock = new Block(16, 2, (int)(Math.random()*7) +1);
-						
+						if (over == 0) {
+							block = new Block(4, 1, nextBlock.getBlockType());
+							nextBlock = new Block(16, 2, (int)(Math.random()*7) +1);
+						}
 					}
 				}
 				/*Handler를 이용해서 Timer마다 화면을 초기화하여 블럭을 움직이는 것처럼 보여준다.*/
@@ -120,6 +122,12 @@ public class BlockControl extends View{
 				mTextScore.setText("Score : " + score);
 				mTextStage.setText("Stage : " + stage);
 				
+				/*
+				 *맵을 갱신한 후, 타이머를 종료하고 게임을 멈춘다.
+				 *블럭이 새로생기는 것을 막고, 버튼이 작동하는 것을 막아야한다.
+				 *지금은 타이어만 멈추고 나머지는 전부 작동하는 중...
+				 */
+				isOver();
 				/* invalidate()
 				 * 이 함수는 불려질때마다 onDraw함수를 호출한다고 한다.
 				 * 바로 밑에 정의되어있는 onDraw함수를 호출하면서 그래픽이 움직이는 것처럼 보여지게 된다
@@ -255,13 +263,6 @@ public class BlockControl extends View{
 				}
 			}
 		}
-		
-		/*
-		 *맵을 갱신한 후, 타이머를 종료하고 게임을 멈춘다.
-		 *블럭이 새로생기는 것을 막고, 버튼이 작동하는 것을 막아야한다.
-		 *지금은 타이어만 멈추고 나머지는 전부 작동하는 중...
-		 */
-		isOver();
 	}
 	
 	/* 현재 맵을 그려주는 함수
@@ -332,8 +333,10 @@ public class BlockControl extends View{
 				deleteLine();
 				
 				/* 바닥에 닿았다는 것이기 때문에 블럭을 새로 뽑아준다.*/
-				block = new Block(4, 1, nextBlock.getBlockType());
-				nextBlock = new Block(16, 2, (int)(Math.random()*7) +1);
+				if (over == 0) {
+					block = new Block(4, 1, nextBlock.getBlockType());
+					nextBlock = new Block(16, 2, (int)(Math.random()*7) +1);
+				}
 			}
 		}
 		/*Handler를 이용해서 화면을 초기화하여 블럭을 움직이는 것처럼 보여준다.*/
@@ -363,9 +366,11 @@ public class BlockControl extends View{
 				setMap();
 				deleteLine();
 				
+				if (over == 0) {
 				/* 바닥에 닿았다는 것이기 때문에 블럭을 새롭게 뽑아준다.*/
-				block = new Block(4, 1, nextBlock.getBlockType());
-				nextBlock = new Block(16, 2, (int)(Math.random()*7) +1);
+					block = new Block(4, 1, nextBlock.getBlockType());
+					nextBlock = new Block(16, 2, (int)(Math.random()*7) +1);
+				}
 				break;
 			}
 		}	
@@ -433,10 +438,92 @@ public class BlockControl extends View{
 		for(int i = 1; i < currentMap[1].length-1; i++) {
 			if(currentMap[1][i] == 1) {
 				
-				/* 스코어와 스테이지를 같이 출력해준다.*/
-				Toast.makeText(getContext(), "GAME OVER!\nScore: " + score + "\nStage: " + stage, Toast.LENGTH_LONG).show();
+				/* over라는 변수를 사용해서, over가 0일 경우에만 블럭을 만들게 한다.
+				 * 이렇게 하지 않을 경우, 게임이 끝나도 계속해서 블럭을 만들어낸다.
+				 * */
+				over = 1;
 				timer.cancel();
+				/* 스코어와 스테이지를 같이 출력해준다.*/
+				DialogDefault();
+				
 			}
 		}
+	}	
+	
+	private void DialogDefault() {
+		
+		AlertDialog.Builder alter = new AlertDialog.Builder(getContext());
+		alter.setTitle("GAME OVER!");
+		alter.setMessage("Score : " + score + "\nStage : " + stage).setCancelable(false);
+		
+		/*
+		 * 게임을 종료할 경우, 게임을 종료한다.
+		 * 게임을 다시시작할 경우, 맵을 전부 0, score, stage, over를 초기화하고
+		 * 타이머를 다시시작한다.
+		 * */
+		alter.setPositiveButton("나가기", new DialogInterface.OnClickListener() {
+			
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				// TODO Auto-generated method stub
+				Log.e("Tag", "out");
+				Process.killProcess(Process.myPid());
+			}
+		});
+		
+		alter.setNegativeButton("다시하기", new DialogInterface.OnClickListener() {
+			
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				// TODO Auto-generated method stub
+				Log.e("Tag", "reset");
+				for (int i = 1; i < currentMap.length - 1; i++) {
+					for (int j = 1; j < currentMap[i].length - 1; j++) {
+						currentMap[i][j] = 0;
+					}
+				}
+				score = 0;
+				stage = 1;
+				over = 0;
+				mHandler.sendEmptyMessage(0);
+				
+				timer = new Timer(true);
+				timer.schedule(new TimerTask() {
+					
+					@Override
+					public void run() {			
+						
+						/*한칸 내린다*/
+						block.setCurrentY(block.getCurrentY() + 1);
+						
+						/*충돌이 일어날시에 이전의 상태로 복구한다.*/
+						if(isCollide() == true) {
+							block.setCurrentY(block.getCurrentY() - 1);
+							
+							/*다시 확인*/
+							block.setCurrentY(block.getCurrentY() + 1);
+							if(isCollide() == true) {
+								block.setCurrentY(block.getCurrentY() - 1);
+								
+								/*바닥이라는 것을 확인했으니 맵에 표시해주고 삭제될 줄이 있는지 확인한다.*/
+								setMap();
+								deleteLine();
+								
+								/*현재 나올 블럭의 이전의 nextBlock를 넣어주고, random으로 nextBlock을 만들어준다.*/
+								if (over == 0) {
+									block = new Block(4, 1, nextBlock.getBlockType());
+									nextBlock = new Block(16, 2, (int)(Math.random()*7) +1);
+								}
+							}
+						}
+						/*Handler를 이용해서 Timer마다 화면을 초기화하여 블럭을 움직이는 것처럼 보여준다.*/
+						mHandler.sendEmptyMessage(0);
+					}
+					
+					/*1초후에 타이머를 시작하며 dropTimer만큼의 딜레이가 걸린다.*/
+				}, 1000, dropTimer);
+			}
+		});
+		alter.show();
 	}	
 }

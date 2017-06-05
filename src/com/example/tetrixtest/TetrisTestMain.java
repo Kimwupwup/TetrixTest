@@ -26,6 +26,7 @@ public class TetrisTestMain extends Activity{
 
 		/* game_intro를 가장먼서 view하고 화면을 클릭할 시에 게임 view가 출력된다.*/
 		setContentView(R.layout.game_intro);
+		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);	
 		introBtn = (ImageButton)findViewById(R.id.intro);		
 		
 		introBtn.setOnClickListener(new OnClickListener() {

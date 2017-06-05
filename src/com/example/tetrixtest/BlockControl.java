@@ -65,6 +65,7 @@ public class BlockControl extends View{
 	private long dropTimer = 1000;
 	
 	private Timer timer;
+	private TimerTask timerTask;
 	
 	public BlockControl(Context context, AttributeSet attrs) {
 		super(context, attrs);
@@ -424,7 +425,7 @@ public class BlockControl extends View{
 	public void calStage() {
 		if(nextStage < score) {
 			stage++;
-			dropTimer *= 0.8;
+			dropTimer *= 0.1;	//È®ÀÎ¿ë
 			nextStage += 100;
 		}
 	}
@@ -485,6 +486,7 @@ public class BlockControl extends View{
 				score = 0;
 				stage = 1;
 				over = 0;
+				dropTimer = 1000;
 				mHandler.sendEmptyMessage(0);
 				
 				timer = new Timer(true);

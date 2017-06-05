@@ -41,8 +41,7 @@ public class GameControl extends RelativeLayout implements OnClickListener, OnLo
 		btnLeft.setOnClickListener(this);
 		btnRight.setOnClickListener(this);
 		btnDown.setOnClickListener(this);
-		btnDown.setOnLongClickListener(this);
-		
+		btnDown.setOnLongClickListener(this);		
 		btnRotate.setOnClickListener(this);
 	}
 

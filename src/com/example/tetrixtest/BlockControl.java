@@ -26,8 +26,7 @@ public class BlockControl extends View{
 	private TextView mTextScore;
 	private TextView mTextStage;
 	private Block block;
-	private Block nextBlock;
-	
+	private Block nextBlock;	
 	
 	private final int blockSize = 50;
 	
@@ -65,8 +64,39 @@ public class BlockControl extends View{
 	private long dropTimer = 1000;
 	
 	private Timer timer;
-	private TimerTask timerTask;
-	
+	private TimerTask timerTask = new TimerTask() {
+
+		@Override
+		public void run() {
+			// TODO Auto-generated method stub
+			/*한칸 내린다*/
+			block.setCurrentY(block.getCurrentY() + 1);
+			
+			/*충돌이 일어날시에 이전의 상태로 복구한다.*/
+			if(isCollide() == true) {
+				block.setCurrentY(block.getCurrentY() - 1);
+				
+				/*다시 확인*/
+				block.setCurrentY(block.getCurrentY() + 1);
+				if(isCollide() == true) {
+					block.setCurrentY(block.getCurrentY() - 1);
+					
+					/*바닥이라는 것을 확인했으니 맵에 표시해주고 삭제될 줄이 있는지 확인한다.*/
+					setMap();
+					deleteLine();
+					
+					/*현재 나올 블럭의 이전의 nextBlock를 넣어주고, random으로 nextBlock을 만들어준다.*/
+					if (over == 0) {
+						block = new Block(4, 1, nextBlock.getBlockType());
+						nextBlock = new Block(16, 2, (int)(Math.random()*7) +1);
+					}
+				}
+			}
+			/*Handler를 이용해서 Timer마다 화면을 초기화하여 블럭을 움직이는 것처럼 보여준다.*/
+			mHandler.sendEmptyMessage(0);
+		}		
+	};
+
 	public BlockControl(Context context, AttributeSet attrs) {
 		super(context, attrs);
 		
@@ -76,40 +106,7 @@ public class BlockControl extends View{
 		
 		/*타이머를 이용해서 일정 주기마다 한칸씩 내린다.*/
 		timer = new Timer(true);
-		timer.schedule(new TimerTask() {
-			
-			@Override
-			public void run() {			
-				
-				/*한칸 내린다*/
-				block.setCurrentY(block.getCurrentY() + 1);
-				
-				/*충돌이 일어날시에 이전의 상태로 복구한다.*/
-				if(isCollide() == true) {
-					block.setCurrentY(block.getCurrentY() - 1);
-					
-					/*다시 확인*/
-					block.setCurrentY(block.getCurrentY() + 1);
-					if(isCollide() == true) {
-						block.setCurrentY(block.getCurrentY() - 1);
-						
-						/*바닥이라는 것을 확인했으니 맵에 표시해주고 삭제될 줄이 있는지 확인한다.*/
-						setMap();
-						deleteLine();
-						
-						/*현재 나올 블럭의 이전의 nextBlock를 넣어주고, random으로 nextBlock을 만들어준다.*/
-						if (over == 0) {
-							block = new Block(4, 1, nextBlock.getBlockType());
-							nextBlock = new Block(16, 2, (int)(Math.random()*7) +1);
-						}
-					}
-				}
-				/*Handler를 이용해서 Timer마다 화면을 초기화하여 블럭을 움직이는 것처럼 보여준다.*/
-				mHandler.sendEmptyMessage(0);
-			}
-			
-			/*1초후에 타이머를 시작하며 dropTimer만큼의 딜레이가 걸린다.*/
-		}, 1000, dropTimer);
+		timer.schedule(timerTask, 1000, dropTimer);
 	}
 	
 	/* Handler
@@ -427,6 +424,8 @@ public class BlockControl extends View{
 			stage++;
 			dropTimer *= 0.1;	//확인용
 			nextStage += 100;
+			timer.cancel();
+			timer.schedule(timerTask, 1000, dropTimer);
 		}
 	}
 	
@@ -490,40 +489,7 @@ public class BlockControl extends View{
 				mHandler.sendEmptyMessage(0);
 				
 				timer = new Timer(true);
-				timer.schedule(new TimerTask() {
-					
-					@Override
-					public void run() {			
-						
-						/*한칸 내린다*/
-						block.setCurrentY(block.getCurrentY() + 1);
-						
-						/*충돌이 일어날시에 이전의 상태로 복구한다.*/
-						if(isCollide() == true) {
-							block.setCurrentY(block.getCurrentY() - 1);
-							
-							/*다시 확인*/
-							block.setCurrentY(block.getCurrentY() + 1);
-							if(isCollide() == true) {
-								block.setCurrentY(block.getCurrentY() - 1);
-								
-								/*바닥이라는 것을 확인했으니 맵에 표시해주고 삭제될 줄이 있는지 확인한다.*/
-								setMap();
-								deleteLine();
-								
-								/*현재 나올 블럭의 이전의 nextBlock를 넣어주고, random으로 nextBlock을 만들어준다.*/
-								if (over == 0) {
-									block = new Block(4, 1, nextBlock.getBlockType());
-									nextBlock = new Block(16, 2, (int)(Math.random()*7) +1);
-								}
-							}
-						}
-						/*Handler를 이용해서 Timer마다 화면을 초기화하여 블럭을 움직이는 것처럼 보여준다.*/
-						mHandler.sendEmptyMessage(0);
-					}
-					
-					/*1초후에 타이머를 시작하며 dropTimer만큼의 딜레이가 걸린다.*/
-				}, 1000, dropTimer);
+				timer.schedule(timerTask, 1000, dropTimer);
 			}
 		});
 		alter.show();

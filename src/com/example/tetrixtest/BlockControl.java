@@ -112,7 +112,8 @@ public class BlockControl extends View{
 	 * stage에 따른 속도를 조절하기 윈한 Handler이다.
 	 * 우선 사용하고 있던 timerTask를 멈추고 timerTaskMake함수를 이용하여 다시 작동시킬 Task를 넣어준다.
 	 * 이것은 timerTask를 멈추면 그 Task는 다시 작동시키는 것을 불가능하다고 한다.
-	 * 그리고 수정된 dropTimer를 넣어주고 다시 schedule를 시작한다.*/
+	 * 그리고 수정된 dropTimer를 넣어주고 다시 schedule를 시작한다.
+	 * */
 	Handler stageHandler = new Handler() {
 		public void handleMessage(Message msg) {
 			if(msg.what == 0) {
@@ -120,7 +121,7 @@ public class BlockControl extends View{
 				timerTask.cancel();
 
 				timerTask = timerTaskMake();
-				timer.schedule(timerTask, 0, dropTimer);
+				timer.schedule(timerTask, 1000, dropTimer);
 				
 				invalidate();
 			}
@@ -517,10 +518,11 @@ public class BlockControl extends View{
 				stage = 1;
 				over = 0;
 				dropTimer = 1000;
-				stageHandler.sendEmptyMessage(0);
+				block = new Block(4, 1, (int)(Math.random()*7) +1);
+				nextBlock = new Block(16, 2, (int)(Math.random()*7) +1);
 				
-				timerTask = timerTaskMake();
 				stageHandler.sendEmptyMessage(0);
+
 			}
 		});
 		alter.show();

@@ -117,7 +117,7 @@ public class BlockControl extends View{
 	 * 이것은 timerTask를 멈추면 그 Task는 다시 작동시키는 것을 불가능하다고 한다.
 	 * 그리고 수정된 dropTimer를 넣어주고 다시 schedule를 시작한다.
 	 * */
-	Handler stageHandler = new Handler() {
+	Handler levelHandler = new Handler() {
 		public void handleMessage(Message msg) {
 			if(msg.what == 0) {
 
@@ -460,7 +460,7 @@ public class BlockControl extends View{
 			level++;
 			dropTimer *= 0.7;	//확인용
 			nextLevel += 100;
-			stageHandler.sendEmptyMessage(0);
+			levelHandler.sendEmptyMessage(0);
 		}
 	}
 	
@@ -524,7 +524,7 @@ public class BlockControl extends View{
 				block = new Block(4, 1, (int)(Math.random()*7) +1);
 				nextBlock = new Block(16, 2, (int)(Math.random()*7) +1);
 				
-				stageHandler.sendEmptyMessage(0);
+				levelHandler.sendEmptyMessage(0);
 
 			}
 		});

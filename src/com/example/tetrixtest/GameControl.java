@@ -19,7 +19,7 @@ public class GameControl extends RelativeLayout implements OnClickListener, OnLo
 	Button btnLeft, btnRight, btnDown, btnRotate;
 	
 	TextView mScore;
-	TextView mStage;
+	TextView mLevel;
 	
 	public GameControl(Context context, AttributeSet attrs) {
 		super(context, attrs);
@@ -35,8 +35,8 @@ public class GameControl extends RelativeLayout implements OnClickListener, OnLo
 		super.onFinishInflate();
 		blockControl = (BlockControl)findViewById(R.id.blockcontrol);		
 		mScore = (TextView)findViewById(R.id.score);
-		mStage = (TextView)findViewById(R.id.stage);
-		blockControl.setTextView(mScore, mStage);
+		mLevel = (TextView)findViewById(R.id.stage);
+		blockControl.setTextView(mScore, mLevel);
 		
 		btnLeft = (Button)findViewById(R.id.left);
 		btnRight = (Button)findViewById(R.id.right);

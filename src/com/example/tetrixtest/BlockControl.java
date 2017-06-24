@@ -20,10 +20,10 @@ public class BlockControl extends View{
 	
 	private int over = 0;
 	private int score = 0;
-	private int nextStage = 100;
-	private int stage = 1;
+	private int nextLevel = 100;
+	private int level = 1;
 	private TextView mTextScore;
-	private TextView mTextStage;
+	private TextView mTextLevel;
 	private Block block;
 	private Block nextBlock;	
 	
@@ -88,8 +88,11 @@ public class BlockControl extends View{
 	Handler mHandler = new Handler() {
 		public void handleMessage(Message msg) {
 			if(msg.what == 0) {
+				/*
+				 * 화면에 출력되는 Score와 Level를 수정한다.
+				 */
 				mTextScore.setText("Score : " + score);
-				mTextStage.setText("Stage : " + stage);
+				mTextLevel.setText("Level : " + level);
 				
 				
 				/*
@@ -428,9 +431,9 @@ public class BlockControl extends View{
 	/* TextView를 가져오기 위한 함수
 	 * GameControl 클래스에서 설정된 TextView를 이 클래스의 값들을 넣어주려면 이렇게 해야된다고 한다.
 	 * */
-	public void setTextView(TextView score, TextView stage) {
+	public void setTextView(TextView score, TextView level) {
 		mTextScore = score;
-		mTextStage = stage;
+		mTextLevel = level;
 	}
 
 	/*점수를 계산 하기 위한 함수*/
@@ -453,10 +456,10 @@ public class BlockControl extends View{
 	
 	/*스테이지를 올리기위한 함수*/
 	public void calStage() {
-		if(nextStage < score) {
-			stage++;
+		if(nextLevel < score) {
+			level++;
 			dropTimer *= 0.7;	//확인용
-			nextStage += 100;
+			nextLevel += 100;
 			stageHandler.sendEmptyMessage(0);
 		}
 	}
@@ -486,7 +489,7 @@ public class BlockControl extends View{
 		
 		AlertDialog.Builder alter = new AlertDialog.Builder(getContext());
 		alter.setTitle("GAME OVER!");
-		alter.setMessage("Score : " + score + "\nStage : " + stage).setCancelable(false);
+		alter.setMessage("Score : " + score + "\nLevel : " + level).setCancelable(false);
 		
 		/*
 		 * 게임을 종료할 경우, 게임을 종료한다.
@@ -515,7 +518,7 @@ public class BlockControl extends View{
 					}
 				}
 				score = 0;
-				stage = 1;
+				level = 1;
 				over = 0;
 				dropTimer = 1000;
 				block = new Block(4, 1, (int)(Math.random()*7) +1);
